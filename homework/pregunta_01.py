@@ -50,3 +50,6 @@ def pregunta_01():
     result = pd.DataFrame(data, columns=columns)
     
     return result
+
+if __name__ == '__main__': 
+  print(pregunta_01())
