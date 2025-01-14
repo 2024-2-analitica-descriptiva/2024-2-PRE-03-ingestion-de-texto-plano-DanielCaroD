@@ -18,3 +18,35 @@ def pregunta_01():
 
 
     """
+
+    import pandas as pd
+
+    with open("files/input/clusters_report.txt") as file:
+      lines = file.readlines()
+    lines = [line.strip() for line in lines if line.strip()][3:]
+    
+    columns = ["cluster", "cantidad_de_palabras_clave", "porcentaje_de_palabras_clave", "principales_palabras_clave"]
+
+    data = []
+    row = None
+
+    for line in lines:
+       line = line.split()
+
+       if line[0].isdigit():
+          if row: 
+             data.append(row)
+          cluster = int(line[0])
+          amount = int(line[1])
+          percentage = float(" ".join(line[2:3]).replace(",","."))
+          words = " ".join(line[4:]).replace(".", "").strip()
+          row = [cluster, amount, percentage, words]
+
+       else:
+          row[-1] += " " + " ".join(line).replace(".", "").strip()
+          
+    data.append(row)
+
+    result = pd.DataFrame(data, columns=columns)
+    
+    return result
